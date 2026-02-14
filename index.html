@@ -134,27 +134,19 @@
         class="flex gap-5 flex-wrap justify-center"
       ></div>
     </section>
+
     <!-- word container -->
     <section
       id="word-container"
-      class="py-3 bg-gray-300 p-10 w-11/12 mx-auto my-10 grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-5 rounded-2xl"
-    ></section>
-
-    <section class="flex justify-center">
-      <div class="join w-11/12 max-w-xl">
-        <div>
-          <label class="input validator join-item w-full">
-            <input
-              id="input-search"
-              type="text"
-              placeholder="Search Vocabulary Now"
-              required
-            />
-          </label>
-        </div>
-        <button id="btn-search" class="btn btn-primary join-item">
-          Search
-        </button>
+      class="py-3 p-10 w-11/12 mx-auto my-10 grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-5 rounded-2xl"
+    >
+      <!-- show the no lesson selected message and image  -->
+      <div
+        id="select-lesson-msg"
+        class="bg-sky-100 text-center col-span-full rounded-xl py-10"
+      >
+        <p>আপনি এখনো কোন Lesson Select করেন নি</p>
+        <h2 class="font-bold text-4xl mt-4">একটি Lesson Select করুন।</h2>
       </div>
     </section>
 
@@ -162,53 +154,22 @@
       <span class="loading loading-spinner loading-lg text-primary"></span>
     </section>
 
-    <section
-      id="word-container"
-      class="bg-gray-100 p-10 w-11/12 mx-auto my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 rounded-2xl"
-    >
-      <div
-        class="text-center bg-sky-100 col-span-full rounded-xl py-10 space-y-6 font-bangla"
-      >
-        <p class="text-xl font-medium text-gray-400">
-          আপনি এখনো কোন Lesson Select করেন নি
-        </p>
-        <h2 class="font-bold text-4xl">একটি Lesson Select করুন।</h2>
-      </div>
-    </section>
+    <!-- get modal from daisyui  -->
 
-    <dialog id="word-details-modal" class="modal">
-      <div class="modal-box space-y-4">
-        <div class="flex items-start justify-between gap-4">
-          <h3 id="modal-word-title" class="text-2xl font-bold">Word</h3>
-          <button
-            id="modal-pronounce-btn"
-            class="btn btn-sm btn-outline btn-primary"
-            type="button"
-            aria-label="Pronounce word"
-          >
-            <i class="fa-solid fa-volume-high"></i>
-          </button>
+    <!-- Open the modal using ID.showModal() method -->
+    <button class="btn">open modal</button>
+    <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <div id="word-details-container" class="space-y-5">
+          
         </div>
-        <div class="badge badge-info badge-outline">
-          <i class="fa-solid fa-circle-info mr-2"></i> Word Details
-        </div>
-        <p class="text-sm text-gray-500">Meaning</p>
-        <p id="modal-word-meaning" class="text-lg font-medium">N/A</p>
-        <p class="text-sm text-gray-500">Pronunciation</p>
-        <p id="modal-word-pronunciation" class="text-lg">N/A</p>
-        <p class="text-sm text-gray-500">Example</p>
-        <p id="modal-word-example" class="text-base">N/A</p>
-        <p class="text-sm text-gray-500">Synonyms</p>
-        <p id="modal-word-synonyms" class="text-base">N/A</p>
         <div class="modal-action">
           <form method="dialog">
-            <button class="btn btn-primary">Complete Learning</button>
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button>
           </form>
         </div>
       </div>
-      <form method="dialog" class="modal-backdrop">
-        <button>close</button>
-      </form>
     </dialog>
 
     <footer class="mt-10 mb-5 text-center text-gray-500">
