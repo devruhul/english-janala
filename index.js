@@ -1,69 +1,56 @@
-const renderEmptyWordsMessage = () => {
-  const wordContainer = document.getElementById("word-container");
-  wordContainer.innerHTML = `
-    <div class="text-center bg-sky-100 col-span-full rounded-xl py-10 space-y-6 font-bangla">
-      <p class="text-xl font-medium text-gray-400">কোনো শব্দ পাওয়া যায়নি</p>
-      <h2 class="font-bold text-3xl">অন্য একটি Lesson Select করুন।</h2>
-    </div>
-  `;
+const loadLessons = () => {
+  fetch("https://openapi.programming-hero.com/api/levels/all")
+    .then((res) => res.json())
+    .then((data) => displayLesson(data.data));
 };
 
-const removeActiveButtonState = () => {
-  const buttons = document.querySelectorAll(".lesson-btn");
-  buttons.forEach((button) => button.classList.remove("active"));
+const loadLevelWord = (id) => {
+  fetch(`https://openapi.programming-hero.com/api/level/${id}`)
+    .then((res) => res.json())
+    .then((data) => displayWord(data.data));
 };
 
-const displayWords = (words) => {
+const displayWord = (words) => {
   const wordContainer = document.getElementById("word-container");
   wordContainer.innerHTML = "";
 
-  if (!words || words.length === 0) {
-    renderEmptyWordsMessage();
-    return;
-  }
-
   words.forEach((word) => {
+    console.log(word);
     const card = document.createElement("div");
-    card.className = "bg-white rounded-xl p-6 space-y-3 shadow";
     card.innerHTML = `
-      <h3 class="text-2xl font-bold">${word.word || "N/A"}</h3>
-      <p class="text-gray-500">Meaning / Pronunciation</p>
-      <p class="text-lg font-medium">${word.meaning || "No meaning"} / ${word.pronunciation || "N/A"}</p>
-    `;
+     <div class="bg-white py-10 text-center px-5 rounded-xl space-y-4">
+      <h2>${word.word}</h2>
+      <p>Meaning
+        <span class="font-semibold">${word.meaning}</span>
+        <div>${word.pronunciation}</div>
+        <div class="flex justify-between items-center ">
+          <button class="bg-blue hover:bg-[#85afed10] btn btn-primary"> <i class="fa-solid fa-info-circle"></i>
+          </button>
+
+        <button class="bg-blue hover:bg-[#85afed10] btn btn-primary "><i class="fa-solid fa-volume-high"></i> </button>
+        </div>
+      </p>
+
+     </div>
+   `;
+
     wordContainer.appendChild(card);
   });
 };
+const displayLesson = (lessons) => {
+  const levelContainer = document.getElementById("level-container");
 
-const loadLevelWords = (levelNo) => {
-  fetch(`https://openapi.programming-hero.com/api/level/${levelNo}`)
-    .then((response) => response.json())
-    .then((data) => {
-      displayWords(data.data);
-    });
+  for (let lesson of lessons) {
+    const btnDiv = document.createElement("div");
+
+    btnDiv.innerHTML = `
+        <button onclick="loadLevelWord('${lesson.level_no}')" class="btn btn-outline btn-primary w-52">
+          <i class="fa-solid fa-book-open mr-2"></i> Lesson - ${lesson.level_no}
+        </button>
+        `;
+
+    levelContainer.appendChild(btnDiv);
+  }
 };
 
-const loadLevelButtons = () => {
-  fetch("https://openapi.programming-hero.com/api/levels/all")
-    .then((response) => response.json())
-    .then((data) => {
-      const buttonContainer = document.getElementById("lessons-list");
-      buttonContainer.innerHTML = "";
-
-      data.data.forEach((level) => {
-        const button = document.createElement("button");
-        button.id = `btn-level-${level.level_no}`;
-        button.className = "btn btn-outline btn-primary lesson-btn";
-        button.textContent = `Lesson - ${level.level_no}`;
-
-        button.addEventListener("click", () => {
-          removeActiveButtonState();
-          button.classList.add("active");
-          loadLevelWords(level.level_no);
-        });
-
-        buttonContainer.appendChild(button);
-      });
-    });
-};
-
-loadLevelButtons();
+loadLessons();
